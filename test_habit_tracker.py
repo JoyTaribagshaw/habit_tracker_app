@@ -19,7 +19,7 @@ def test_db():
 
 @pytest.fixture
 def my_habits(test_db):
-    return MyHabits(test_db.cursor())
+    return MyHabits(test_db.cursor(), test_db)
 
 def test_add_habit(my_habits, test_db):
     my_habits.add_habit("Test Reading", 1)

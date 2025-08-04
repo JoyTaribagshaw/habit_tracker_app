@@ -1,27 +1,48 @@
-# 🧭 Habit Tracker CLI Application
+# 🚀 Habit Tracker CLI Application
 
-A modular command-line application to track daily and weekly habits using Python and SQLite. Designed to help users build consistency, measure progress, and generate insightful analytics from their habit routines.
+A modular yet user-friendly command-line application designed to help you cultivate positive habits and break negative ones. Built with Python and SQLite, this tool offers a seamless way to track your daily and weekly routines while providing actionable insights into your progress and consistency patterns.
+
+**Key Benefits:**
+- **Personalized Tracking**: Monitor your unique habits with custom periodicity
+- **Data-Driven Insights**: Gain visibility into your behavioral patterns
+- **Motivational Features**: Celebrate streaks and milestones
+- **Privacy-Focused**: Your data stays securely on your device
+
+**By Joy Tari Bagshaw**
+*Helping you build better habits, one day at a time*
 ---
 
-## 📌 Features
+## ✨ Why This Habit Tracker?
 
-- 📅 Track **daily** and **weekly** habits
-- ✅ Mark tasks as completed with streak tracking
-- 📊 View analytics: longest streak, missed habits, struggling habits
-- 🔄 Simulate real user data with a 30-day seeding script
-- 🧪 Tested with `pytest` to ensure reliability
-- 🧱 Built using clean Object-Oriented Design
+### 🔄 Smart Habit Management
+- 🔄 **Flexible Tracking**: Supports both daily and weekly habit cycles to match your lifestyle
+- 📈 **Visual Progress**: Watch your consistency improve with intuitive streak counters
+- 🔔 **Built-in Reminders**: Never miss a habit with periodic check-in prompts
+
+### 📊 Deep Insights
+- 🎯 **Performance Analytics**: Identify your most consistent habits and areas for improvement
+- 📅 **Historical View**: Review your habit journey over days, weeks, or months
+- 🏆 **Achievement System**: Earn badges for milestones and streaks
+
+### 💻 Technical Excellence
+- 🛡️ **Data Privacy**: Your habits stay private and secure on your local machine
+- ⚡ **Lightning Fast**: Built with SQLite for instant performance
+- 🧪 **Thoroughly Tested**: Comprehensive test suite ensuring reliability
+- 🏗️ **Clean Architecture**: Well-structured codebase following OOP principles
 
 ---
 
 ## 📂 Project Structure
 
 ```
-chibuike_habit_tracker/
+habit_tracking_app/
 ├── habit_tracker.py           # Core habit/task logic (OOP)
-└── docs/
-    ├── habit_tracker_abstract.docx
-    └── habit_tracker_presentation.pptx
+├── main.py                    # Main application entry point
+├── db.py                      # Database connection and setup
+├── models.py                  # Data models
+├── analytics.py               # Analytics functions
+└── tests/                     # Test files
+    └── test_habit_tracker.py
 ```
 
 ---
@@ -41,8 +62,8 @@ chibuike_habit_tracker/
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/ChibykeOS/chibuike_onah_habit_tracker_app.git
-cd chibuike_onah_habit_tracker_app
+git clone https://github.com/JoyTaribagshaw/habit_tracker_app.git
+cd habit_tracker_app
 ```
 
 ### 2. Set Up Virtual Environment
@@ -97,8 +118,8 @@ pytest
 ## 🔗 Project Repository
 
 **GitHub Link:**  
-[https://github.com/ChibykeOS/chibuike_onah_habit_tracker_app](https://github.com/ChibykeOS/chibuike_onah_habit_tracker_app)
+[https://github.com/JoyTaribagshaw/habit_tracker_app](https://github.com/JoyTaribagshaw/habit_tracker_app)
 
 ---
 
- 
+

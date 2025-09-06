@@ -1,5 +1,5 @@
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
 from models import Habit, Task, Difficulty, HabitStatus, TaskStatus
 
 # Setup logging
@@ -12,13 +12,14 @@ class MyHabits:
         self.connection = db_connection
 
     def add_habit(self, habit_name, habit_period):
-        if habit_period == 1:
-            habit_period = "daily"
-        elif habit_period == 2:
-            habit_period = "weekly"
-        else:
-            print("Invalid periodicity. Use 1 for daily, 2 for weekly.")
-            return
+        # Input validation
+        if not habit_name or not str(habit_name).strip():
+            raise ValueError("Habit name cannot be empty")
+            
+        if habit_period not in [1, 2]:
+            raise ValueError("Invalid periodicity. Use 1 for daily, 2 for weekly.")
+            
+        habit_period = "daily" if habit_period == 1 else "weekly"
 
         new_habit = Habit(habit_name, habit_period)
         self.cursor.execute("""
@@ -90,10 +91,10 @@ class MyHabits:
             return
 
         habit_name = habit_data[1]
-        habit_period = habit_data[2]
-        # Ensure current_streak is an integer, default to 0 if None
-        current_streak = int(habit_data[5]) if habit_data[5] is not None else 0
-        # habit_status is column index 8 (0-based)
+        habit_period = habit_data[3]  # Index 3 for habit_period
+        # Index 6 for streak (0-based)
+        current_streak = int(habit_data[6]) if habit_data[6] is not None else 0
+        # Index 8 for habit_status (0-based)
         habit_status = habit_data[8]
 
         if habit_status != 'active':

@@ -83,10 +83,9 @@ def main():
             print("👋 Exiting. Goodbye!")
             break
 
-    connection.commit()
-    connection.close()
-    dbconnection.commit()
-    dbconnection.close()
+    if 'connection' in locals():
+        connection.commit()
+        connection.close()
 
 if __name__ == "__main__":
     main()

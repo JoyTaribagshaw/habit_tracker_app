@@ -2,33 +2,35 @@
 
 A modular yet user-friendly command-line application designed to help you cultivate positive habits and break negative ones. Built with Python and SQLite, this tool offers a seamless way to track your daily and weekly routines while providing actionable insights into your progress and consistency patterns.
 
-**Key Benefits:**
-- **Personalized Tracking**: Monitor your unique habits with custom periodicity
-- **Data-Driven Insights**: Gain visibility into your behavioral patterns
-- **Motivational Features**: Celebrate streaks and milestones
-- **Privacy-Focused**: Your data stays securely on your device
+## 📌 Key Features
 
-**By Joy Tari Bagshaw**
+- 📅 Track **daily** and **weekly** habits with periodicity support
+- ✅ Mark habits as completed with automatic streak calculation
+- 📊 View comprehensive analytics including longest streaks and habit correlations
+- 🧩 Modular architecture with separate components for UI, logic, and data
+- 🧪 Rigorously tested with `pytest` for reliability
+
+**By Joy Tari Bagshaw**  
 *Helping you build better habits, one day at a time*
 ---
 
 ## ✨ Why This Habit Tracker?
 
 ### 🔄 Smart Habit Management
-- 🔄 **Flexible Tracking**: Supports both daily and weekly habit cycles to match your lifestyle
-- 📈 **Visual Progress**: Watch your consistency improve with intuitive streak counters
-- 🔔 **Built-in Reminders**: Never miss a habit with periodic check-in prompts
+- 🔄 **Flexible Tracking**: Supports both daily and weekly habit tracking
+- 📈 **Streak Tracking**: Automatic streak calculation to keep you motivated
+- 📅 **Habit History**: View your completion history and patterns
 
-### 📊 Deep Insights
-- 🎯 **Performance Analytics**: Identify your most consistent habits and areas for improvement
-- 📅 **Historical View**: Review your habit journey over days, weeks, or months
-- 🏆 **Achievement System**: Earn badges for milestones and streaks
+### 📊 Data-Driven Insights
+- 📊 **Analytics Dashboard**: Get insights into your habit performance
+- 🔍 **Habit Correlation**: Discover relationships between different habits
+- 📉 **Missed Habits**: Identify which habits need more attention
 
-### 💻 Technical Excellence
-- 🛡️ **Data Privacy**: Your habits stay private and secure on your local machine
-- ⚡ **Lightning Fast**: Built with SQLite for instant performance
-- 🧪 **Thoroughly Tested**: Comprehensive test suite ensuring reliability
-- 🏗️ **Clean Architecture**: Well-structured codebase following OOP principles
+### 💻 Technical Highlights
+- 🏗️ **Clean Architecture**: Well-organized OOP design
+- 💾 **Local Storage**: SQLite database for data persistence
+- 🧪 **Test Coverage**: Comprehensive unit tests for core functionality
+- 🚀 **CLI Interface**: Simple, keyboard-driven interface
 
 ---
 

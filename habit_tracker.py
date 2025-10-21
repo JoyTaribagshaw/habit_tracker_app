@@ -51,6 +51,57 @@ class MyHabits:
         new_habit.id = self.cursor.lastrowid
         print(f"Habit '{new_habit.name}' added with ID {new_habit.id}.")
 
+    def edit_habit(self, habit_id, new_name=None, new_period=None):
+        """
+        Edit an existing habit's name and/or periodicity.
+        Preserves all streak data and completion history.
+        
+        Args:
+            habit_id (int): ID of the habit to edit
+            new_name (str, optional): New name for the habit
+            new_period (int, optional): New periodicity (1 for daily, 2 for weekly)
+        """
+        # Fetch current habit data
+        self.cursor.execute("SELECT habit_name, habit_period FROM Habits WHERE id = ?", (habit_id,))
+        result = self.cursor.fetchone()
+        
+        if not result:
+            print("Habit not found.")
+            return
+        
+        current_name, current_period = result
+        updates = []
+        params = []
+        
+        # Validate and prepare name update
+        if new_name is not None:
+            if not new_name or not str(new_name).strip():
+                raise ValueError("Habit name cannot be empty")
+            updates.append("habit_name = ?")
+            params.append(new_name.strip())
+        
+        # Validate and prepare period update
+        if new_period is not None:
+            if new_period not in [1, 2]:
+                raise ValueError("Invalid periodicity. Use 1 for daily, 2 for weekly.")
+            period_str = "daily" if new_period == 1 else "weekly"
+            updates.append("habit_period = ?")
+            params.append(period_str)
+        
+        if not updates:
+            print("No changes specified.")
+            return
+        
+        # Update the habit
+        params.append(habit_id)
+        query = f"UPDATE Habits SET {', '.join(updates)} WHERE id = ?"
+        self.cursor.execute(query, params)
+        self.connection.commit()
+        
+        print(f"Habit updated successfully!")
+        print(f"  Previous: {current_name} ({current_period})")
+        print(f"  Current: {new_name or current_name} ({params[-2] if new_period else current_period})")
+
     def deactivate_habit(self, habit_id):
         self.cursor.execute("SELECT habit_name FROM Habits WHERE id = ?", (habit_id,))
         result = self.cursor.fetchone()

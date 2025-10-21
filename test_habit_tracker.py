@@ -138,3 +138,62 @@ def test_invalid_habit_creation(my_habits):
     # Test invalid periodicity
     with pytest.raises(ValueError):
         my_habits.add_habit("Invalid Habit", 3)  # 3 is not a valid period
+
+def test_edit_habit_name(my_habits, test_db):
+    """Test editing a habit's name while preserving streak"""
+    # Add a habit
+    my_habits.add_habit("Old Name", 1)
+    cur = test_db.cursor()
+    habit_id = cur.execute("SELECT id FROM Habits WHERE habit_name = 'Old Name'").fetchone()[0]
+    
+    # Mark it completed to build a streak
+    my_habits.mark_task_completed(habit_id)
+    original_streak = cur.execute("SELECT streak FROM Habits WHERE id = ?", (habit_id,)).fetchone()[0]
+    
+    # Edit the name
+    my_habits.edit_habit(habit_id, new_name="New Name")
+    
+    # Verify name changed and streak preserved
+    result = cur.execute("SELECT habit_name, streak FROM Habits WHERE id = ?", (habit_id,)).fetchone()
+    assert result[0] == "New Name"
+    assert result[1] == original_streak
+
+def test_edit_habit_periodicity(my_habits, test_db):
+    """Test editing a habit's periodicity while preserving streak"""
+    # Add a daily habit
+    my_habits.add_habit("Periodicity Test", 1)
+    cur = test_db.cursor()
+    habit_id = cur.execute("SELECT id FROM Habits WHERE habit_name = 'Periodicity Test'").fetchone()[0]
+    
+    # Mark it completed to build a streak
+    my_habits.mark_task_completed(habit_id)
+    original_streak = cur.execute("SELECT streak FROM Habits WHERE id = ?", (habit_id,)).fetchone()[0]
+    
+    # Edit the periodicity from daily to weekly
+    my_habits.edit_habit(habit_id, new_period=2)
+    
+    # Verify periodicity changed and streak preserved
+    result = cur.execute("SELECT habit_period, streak FROM Habits WHERE id = ?", (habit_id,)).fetchone()
+    assert result[0] == "weekly"
+    assert result[1] == original_streak
+
+def test_edit_habit_both(my_habits, test_db):
+    """Test editing both name and periodicity"""
+    # Add a habit
+    my_habits.add_habit("Original", 1)
+    cur = test_db.cursor()
+    habit_id = cur.execute("SELECT id FROM Habits WHERE habit_name = 'Original'").fetchone()[0]
+    
+    # Edit both name and periodicity
+    my_habits.edit_habit(habit_id, new_name="Updated", new_period=2)
+    
+    # Verify both changed
+    result = cur.execute("SELECT habit_name, habit_period FROM Habits WHERE id = ?", (habit_id,)).fetchone()
+    assert result[0] == "Updated"
+    assert result[1] == "weekly"
+
+def test_edit_nonexistent_habit(my_habits, test_db):
+    """Test editing a habit that doesn't exist"""
+    # Try to edit a non-existent habit (should handle gracefully)
+    my_habits.edit_habit(99999, new_name="Test")
+    # Should not raise an error, just print a message

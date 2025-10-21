@@ -33,7 +33,7 @@ def display_menu():
     print("0️⃣  Exit")
 
 def main():
-    db_file = input("Enter database file name (default: my_habits.db): ").strip() or "my_habits.db"
+    db_file = "my_habits.db"
     connection = create_connection(db_file)
     cursor = connection.cursor()
     from db import create_tables

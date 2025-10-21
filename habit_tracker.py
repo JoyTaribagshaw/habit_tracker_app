@@ -1,3 +1,7 @@
+"""
+Core habit tracking module containing the MyHabits class.
+Handles habit creation, completion tracking, and streak calculations.
+"""
 import logging
 from datetime import datetime, timedelta
 from models import Habit, Task, Difficulty, HabitStatus, TaskStatus
@@ -7,11 +11,28 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 class MyHabits:
+    """
+    Main class for managing habits and tracking completions.
+    
+    Attributes:
+        cursor: Database cursor for executing queries
+        connection: Database connection for committing changes
+    """
     def __init__(self, db_cursor, db_connection):
         self.cursor = db_cursor
         self.connection = db_connection
 
     def add_habit(self, habit_name, habit_period):
+        """
+        Add a new habit to the database.
+        
+        Args:
+            habit_name (str): Name of the habit
+            habit_period (int): 1 for daily, 2 for weekly
+            
+        Raises:
+            ValueError: If habit_name is empty or habit_period is invalid
+        """
         # Input validation
         if not habit_name or not str(habit_name).strip():
             raise ValueError("Habit name cannot be empty")
@@ -82,6 +103,13 @@ class MyHabits:
             print(f"No active {period} habits found.")
 
     def mark_task_completed(self, habit_id):
+        """
+        Mark a habit as completed for the current period.
+        Respects habit periodicity (daily/weekly) and updates streak accordingly.
+        
+        Args:
+            habit_id (int): ID of the habit to mark as completed
+        """
         today = datetime.now().strftime("%Y-%m-%d")
         self.cursor.execute("SELECT * FROM Habits WHERE id = ?", (habit_id,))
         habit_data = self.cursor.fetchone()
@@ -101,6 +129,7 @@ class MyHabits:
             print("This habit is inactive and cannot be marked completed.")
             return
 
+        # Check if already completed for this period
         if habit_period == 'daily':
             self.cursor.execute("SELECT * FROM Tasks WHERE habit_id = ? AND task_log_date = ?", (habit_id, today))
             if self.cursor.fetchone():

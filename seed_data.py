@@ -1,4 +1,9 @@
+"""
+Seed script to populate the database with 4 weeks (28 days) of sample habit data.
+This data is used for testing analytics and streak calculations.
+"""
 import logging
+from datetime import datetime, timedelta
 from models import Habit, Task, Difficulty, HabitStatus, TaskStatus
 from db import create_connection
 import random
@@ -10,9 +15,9 @@ logger = logging.getLogger(__name__)
 connection = create_connection()
 cursor = connection.cursor()
 
-# Fixed 30-day data range ending on June 16, 2025
+# Fixed 28-day (4 weeks) data range ending on June 16, 2025
 end_date = datetime.strptime("2025-06-16", "%Y-%m-%d").date()
-start_date = end_date - timedelta(days=29)
+start_date = end_date - timedelta(days=27)  # 28 days total (4 weeks)
 
 # Habits
 daily_habits = ["Drink Water", "Exercise", "Journal"]
@@ -42,26 +47,27 @@ cursor.execute("SELECT id, habit_name, habit_period FROM Habits")
 habit_records = cursor.fetchall()
 habit_map = {name: hid for hid, name, period in habit_records}
 
-# Insert task completions for 30 days
-for i in range(30):
+# Insert task completions for 28 days (4 weeks)
+for i in range(28):
     current_day = start_date + timedelta(days=i)
     date_str = current_day.strftime("%Y-%m-%d")
 
+    # Daily habits: ~85% completion rate for realistic data
     for habit_name in daily_habits:
-        if random.random() < 0.85:  # ~85% chance of completion
+        if random.random() < 0.85:
             cursor.execute("""
                 INSERT INTO Tasks (habit_id, task_name, periodicity, task_log_date, streak, task_status)
                 VALUES (?, ?, ?, ?, ?, ?)
             """, (habit_map[habit_name], habit_name, "daily", date_str, 0, "completed"))
 
-# Insert weekly tasks (one per week)
-total_days = 30
-for i in range(0, total_days, 7):
-    day_of_week = start_date + timedelta(days=i + 1)  # use Tuesday of each week
+# Insert weekly tasks (one per week for 4 weeks)
+for week in range(4):
+    day_of_week = start_date + timedelta(days=week * 7 + 1)  # Tuesday of each week
     date_str = day_of_week.strftime("%Y-%m-%d")
 
+    # Weekly habits: ~90% completion rate
     for habit_name in weekly_habits:
-        if random.random() < 0.9:  # ~90% chance
+        if random.random() < 0.9:
             cursor.execute("""
                 INSERT INTO Tasks (habit_id, task_name, periodicity, task_log_date, streak, task_status)
                 VALUES (?, ?, ?, ?, ?, ?)
